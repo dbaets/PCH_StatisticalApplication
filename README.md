@@ -16,4 +16,4 @@ In the following months following tests may be added to the application:
 * Linear regression
 * GLM models
 
-If you have any suggestions or questions about the application please don't hesitate to contact me *dieterbaets(at)gmail(dot)com*
+If you have any suggestions or questions about the application please don't hesitate to contact me *dieterbaets(at)gmail(dot)com* or *dieter(dot)baets(at)proefcentrum(dot)be*.
