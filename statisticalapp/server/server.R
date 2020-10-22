@@ -136,7 +136,7 @@ server <- function(input, output,session) {
     print(rv$model$p.value)
     print(rv$sigletters)
     
-    updateNavbarPage(session = session,inputId = "mainnavbarpage", selected = "page_about")
+    updateNavbarPage(session = session,inputId = "mainnavbarpage", selected = "page_output")
     # rv$sigletters <- global.sigletters
     # rv$p_value <- global.model$p.value
   })
@@ -184,6 +184,8 @@ server <- function(input, output,session) {
                       summary = data.frame(global.summary),
                       sigletters = data.frame(global.sigletters),
                       inputpath = rv$path)
+    
+    updateNavbarPage(session = session,inputId = "mainnavbarpage", selected = "page_about")
     
   })
   

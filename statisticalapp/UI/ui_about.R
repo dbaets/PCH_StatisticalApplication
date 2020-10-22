@@ -10,7 +10,7 @@ body_about <- shinydashboard::dashboardBody(
         By automating the process of choosing the right statistical test the time spent on data analysis is drastically reduced.",
         br(),
         "If you want more information on how to use this application please vistit the ",
-        tags$a(href = "http://github.com/dbaets","Github page of Dieter Baets"),
+        tags$a(href = "http://github.com/dbaets/PCH_StatisticalApplication","Github page of Dieter Baets"),
         "where you can find the source code (MIT license) and a manual.",
         hr(),
         img(src = "logopch_colour.png",

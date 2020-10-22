@@ -5,7 +5,7 @@ body_statistics <- shinydashboard::dashboardBody(
     box(title = "Statistical tests",
         status = "success",
         solidHeader = FALSE,
-        "table with statistical tests and post-hoc tests",
+        "Placeholder for table with overview of differnt statistal tests.",
         
     ),
     box(title = "Run Statistics",
@@ -15,16 +15,7 @@ body_statistics <- shinydashboard::dashboardBody(
                      style="color: #ffff; background-color: #446F35; border-color: #28572A")
     )
   ),
-  fluidRow(
-    box(title = "P-value",
-        textOutput("p_value")
-        ),
-    box(
-      actionButton("statistic_run", label = "Run statistics")
-    )
-    
-  ),
-
+  
   tabsetPanel(
     id = "tables_stats",
     tabPanel("Boxplot", plotOutput("summary_boxplot")),

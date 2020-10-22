@@ -2,10 +2,10 @@
 
 body_output <- shinydashboard::dashboardBody(
   fluidRow(
-    box(title = "Some output title",
+    box(title = "Output results",
         status = "success",
         solidHeader = FALSE,
-        "Some output text"
+        "In order to download the output excel pleas press the green Output Results button."
     ),
     box(title = "Export results to Excel",
         status = "success",

@@ -45,6 +45,8 @@ On this pane you only have to press the green button *Run Statistics*.
 If everything goes well you are redirected to the *output* pane where you can download the results using the green *Output Results button*.
 The output excel is redirected to the same folder were you loaded the inputdata from.
 
+If the app jumps automatically to the next pane the analysis went without errors.
+
 
 ## Interpreting output
 ## output file
