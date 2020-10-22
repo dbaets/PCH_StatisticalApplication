@@ -32,7 +32,7 @@ After installing all the required packages you can now run the shiny application
 
 # Performing statistical analysis using statistical application
 ## Preparing data
-In order to perform any analys using the *PCH - statistical application* you need to put the data in to the correct format otherwise the shiny app cannot load the data and will throw an error. Please download the correct template f
+In order to perform any analys using the *PCH - statistical application* you need to put the data in to the correct format and on the correct named sheet otherwise the shiny app cannot load the data and will throw an error. Please download the correct template beforehand.
 
 ## Loading data
 First select a input file using the **Select file** button and select an input type using the radiobuttons on the *Input* pane before loading the file using the **Load file** button.
@@ -48,17 +48,51 @@ The output excel is redirected to the same folder were you loaded the inputdata 
 If the app jumps automatically to the next pane the analysis went without errors.
 
 
-## Interpreting output
+# Interpreting output
 ## output file
 following tabs are generated in the outputfile:
 
 * **inputdata**: the inputdata used to perform the analysis
 * **teststatistic**: summary of the test statistic used to differentiate between different objects. The app chooses automatically between parametric and non parametric tests according to the prerequisites for each tests.
 * **sigletters**: if the p-value of the test statistic is <0.05 you can interpret the results using a post-hoc test. For each object a letter or p-value is placed in a table with the summary statistics. If the letters are different from each other the different objects are different from each other.
-* **summary**: table with a summary of the data. This summary is ideal to make graphs from.
+* **summary**: table with a summary of the data. This summary is ideal as a starting point to make graphs.
 
 ## reporting results
-todo
+
+When writing a report please include following text under the title *statistical analysis*:
+
+> All results were statistically confirmed by the statistical software R (version 4.0.0, 24/04/2020) (R Core Team, 2019), with RStudio (RStudio Team, 2016) as an integrated development environment (IDE). In order to analyse the results following packages were used: tidyverse (Wickham, 2017), multcomp (Hothorn et al., 2008) lsmeans (Lenth, 2016), rcompanion (Mangiafico, 2019) and car (Fox and Weisberg, 2019). The statistical tests have the goal to evaluate the difference between the different objects. When the data and residues were normally distributed an analysis of variance (ANOVA) was used. In the case both assumptions were not fulfilled a Kruskall-Wallis test was used as a non-parametric test. With each result it is clearly mentioned which test is used for the analysis. When a significant difference occurred a Tukey post-hoc test between the different objects was performed. A significant result is shown by the use of different letters.
+
+with following references:
+
+> Fox, J. en Weisberg, S., 2019. An {R} companion to applied regression, Third Edition. Thousand Oaks.
+
+> Hothorn, T., Bretz, F. en Westfall, P., 2008. Simultaneous inference in general parametric models. Biometrical Journal 50(3)
+
+> Lenth, R., 2016. Least-squares means: the R package lsmeans. Journal of statistical software, 69(1)
+
+> Mangiafico, S., 2020. Rcompanion: functions to support extension education program evaluation. Package version: 2.3.0
+> R Core Team, 2019. R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL: www.R-project.org
+
+> RStudio Team, 2016. RStudio: Integrated Development for R. RStudio Inc., USA, Boston. URL: wwww.rstudio.com
+Wickham, H., 2017. Tidyverse: easily install and load the ‘Tidyverse’. Package version: 1.2.1
+
+The results of an anova can be best reported in the following format:
+
+> $$F(5,18)=1.288, p=0.312$$
+
+* **5**: DF object, degrees of freedom at the level of the objects
+* **18**: DF residuals, degrees of freedom of the residuals
+* **1.288**: F-value in *TestStatistic* table
+* **0.312**: p-value in *TestStatistic* table
+
+The results of an Kruskal-Wallis should be reported in following format:
+
+> $$\chi^2(3)=5.889, p=0.117$$
+
+* **3**: DF, degrees of freedom
+* **5.889**: F-value in *TestStatistic* table
+* **0117**: p-value in *TestStatistic* table
 
 # Types of inputdata
 
@@ -79,3 +113,11 @@ excelsheetname: *statistiek_productie*
 excelsheetname: *statistiek_sortering*
 
 ![sortering](figs/input_sortering.png)
+
+
+## algemene proef
+
+exelsheetname: *statistiek*
+
+![sortering](figs/input_generaltrial.png)
+
