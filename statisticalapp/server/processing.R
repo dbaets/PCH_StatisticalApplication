@@ -325,12 +325,260 @@ f_processing <- function(df, datatype){
     
   } else if(datatype == 2){ # uitval
     
+    # factorize input
+    df$objectnr <- as_factor(df$objectnr)
+    df$objectnaam <- as_factor(df$objectnaam)
+    
+    # check number of objects
+    global.no_levels <<- length(levels(df$objectnaam))
+    
+    # which test
+    if (global.no_levels>2) {
+      # ANOVA
+      m_model <- f_anova(test_variable = df$meting,
+                         objectname = df$objectnr,
+                         datatable = df)
+      check_assumption_anova <- f_anova_assumptions(aov_model = m_model,
+                                                    datatable = df,
+                                                    test_variable = df$meting,
+                                                    group_variable = df$objectnr)
+      # check anova assumptions
+      if(check_assumption_anova == TRUE){
+        global.anova <<- TRUE
+        
+        # get anova summary
+        summary_anova <- summary.aov(m_model)
+        
+        variables <- c("Test statistic",
+                       "DF object",
+                       "DF residuals",
+                       "F-value",
+                       "p-value")
+        value <- c("ANOVA, Tukey Post-Hoc",
+                   summary_anova[[1]]$Df[1], #df_object
+                   summary_anova[[1]]$Df[2], #df_residuals
+                   summary_anova[[1]]$`F value`[1], #F-value
+                   summary_anova[[1]]$`Pr(>F)`[1]) #p-value
+        statistics <- tibble(variable_name = variables,
+                             botrytis = value)
+        
+        m_letters <- f_anova_sigletters(aov_model = m_model, group = "uitval")
+        
+        print("statistical test: ANOVA, uitval")
+        
+      } else{
+        global.kruskalwallis <<- TRUE
+        m_model <- f_nonparametric_kruskalwallis(test_variable = df$meting,
+                                                 objectname = df$objectnr,
+                                                 datatable = df)
+        
+        letters_temp <- f_kruskalwallis_groupdifference(test_variable = df$meting,
+                                                        objectname = df$objectnr)
+        m_letters <- letters_temp$p.value
+        # add rownames to output
+        m_letters <- data.frame(m_letters)
+        m_letters$object <- row.names(m_letters)
+        
+        variables <- c("Test statistic",
+                       "DF",
+                       "F-value",
+                       "p-value")
+        value <- c(m_model$method,
+                   as.numeric(m_model$parameter), #df
+                   as.numeric(m_model$statistic), #F-value
+                   m_model$p.value) #p-value
+        statistics <- tibble(variable_name = variables,
+                             botrytis = value)
+        
+        print("statistical test: Kruskalwallis, uitval")
+      }
+      
+    } else if(global.no_levels == 2){
+      # check normality
+      normality_check <- f_normality_2objects(test_vector = df$meting)
+      if(normality_check){
+        # t-test
+        global.t_test <<- TRUE
+        m_model <- f_parametric_t_test(test_variable = df$meting,two_objects = df$objectnr)
+        variables <- c("Test statistic",
+                       "DF",
+                       "T-value",
+                       "p-value",
+                       "side")
+        value <- c(m_model$method,
+                   as.numeric(m_model$parameter), #df
+                   as.numeric(m_model$statistic), #F-value
+                   m_model$p.value, #p-value
+                   m_model$alternative) 
+        statistics <- tibble(variable_name = variables,
+                             botrytis = value)
+        m_letters <- f_sigletters_two_objects(p_value = m_model$p.value,objectlevels = levels(as.factor(df$objectnr)))
+        
+        print("statistical test: T-Test")
+      } else {
+        # Mann-Whitney U test
+        global.mannwhitney <<- TRUE
+        m_model <- f_nonparametric_mannwhithney(testvariable = df$meting,objectname = df$objectnr)
+        variables <- c("Test statistic",
+                       "DF",
+                       "T-value",
+                       "p-value",
+                       "side")
+        value <- c(m_model$method,
+                   "NO DF", #df
+                   as.numeric(m_model$statistic), #F-value
+                   m_model$p.value, #p-value
+                   m_model$alternative) 
+        statistics <- tibble(variable_name = variables,
+                             botrytis = value)
+        m_letters <- f_sigletters_two_objects(p_value = m_model$p.value,objectlevels = levels(as.factor(df$objectnr)))
+        
+        print("statistical test: MannWhitney")
+      }
+    } else {
+      print("Error: not enough object levels to perform statistics.")
+    }
+    
+    
+    summarytable_input <- df %>% 
+      dplyr::select(objectnr,meting)
+    colnames(summarytable_input) <- c("object", "testvariable")
+    
+    # global output
+    global.summary <<- f_summary_stat(summarytable = summarytable_input)
+    global.sigletters <<- m_letters
+    global.teststatistic <<- statistics
+    
     print("Uitval file processed")
     
     
     # Drukplekgevoeligheid ----------------------------------------------------
     
   } else if(datatype == 3){ # drukplekgevoeligheid
+    
+    # factorize input
+    df$objectnr <- as_factor(df$objectnr)
+    df$objectnaam <- as_factor(df$objectnaam)
+    
+    # check number of objects
+    global.no_levels <<- length(levels(df$objectnaam))
+    
+    # which test
+    if (global.no_levels>2) {
+      # ANOVA
+      m_model <- f_anova(test_variable = df$meting,
+                         objectname = df$objectnr,
+                         datatable = df)
+      check_assumption_anova <- f_anova_assumptions(aov_model = m_model,
+                                                    datatable = df,
+                                                    test_variable = df$meting,
+                                                    group_variable = df$objectnr)
+      # check anova assumptions
+      if(check_assumption_anova == TRUE){
+        global.anova <<- TRUE
+        
+        # get anova summary
+        summary_anova <- summary.aov(m_model)
+        
+        variables <- c("Test statistic",
+                       "DF object",
+                       "DF residuals",
+                       "F-value",
+                       "p-value")
+        value <- c("ANOVA, Tukey Post-Hoc",
+                   summary_anova[[1]]$Df[1], #df_object
+                   summary_anova[[1]]$Df[2], #df_residuals
+                   summary_anova[[1]]$`F value`[1], #F-value
+                   summary_anova[[1]]$`Pr(>F)`[1]) #p-value
+        statistics <- tibble(variable_name = variables,
+                             botrytis = value)
+        
+        m_letters <- f_anova_sigletters(aov_model = m_model, group = "drukplekgevoeligheid")
+        
+        print("statistical test: ANOVA, uitval")
+        
+      } else{
+        global.kruskalwallis <<- TRUE
+        m_model <- f_nonparametric_kruskalwallis(test_variable = df$meting,
+                                                 objectname = df$objectnr,
+                                                 datatable = df)
+        
+        letters_temp <- f_kruskalwallis_groupdifference(test_variable = df$meting,
+                                                        objectname = df$objectnr)
+        m_letters <- letters_temp$p.value
+        # add rownames to output
+        m_letters <- data.frame(m_letters)
+        m_letters$object <- row.names(m_letters)
+        
+        variables <- c("Test statistic",
+                       "DF",
+                       "F-value",
+                       "p-value")
+        value <- c(m_model$method,
+                   as.numeric(m_model$parameter), #df
+                   as.numeric(m_model$statistic), #F-value
+                   m_model$p.value) #p-value
+        statistics <- tibble(variable_name = variables,
+                             botrytis = value)
+        
+        print("statistical test: Kruskalwallis, drukplekgevoeligheid")
+      }
+      
+    } else if(global.no_levels == 2){
+      # check normality
+      normality_check <- f_normality_2objects(test_vector = df$meting)
+      if(normality_check){
+        # t-test
+        global.t_test <<- TRUE
+        m_model <- f_parametric_t_test(test_variable = df$meting,two_objects = df$objectnr)
+        variables <- c("Test statistic",
+                       "DF",
+                       "T-value",
+                       "p-value",
+                       "side")
+        value <- c(m_model$method,
+                   as.numeric(m_model$parameter), #df
+                   as.numeric(m_model$statistic), #F-value
+                   m_model$p.value, #p-value
+                   m_model$alternative) 
+        statistics <- tibble(variable_name = variables,
+                             botrytis = value)
+        m_letters <- f_sigletters_two_objects(p_value = m_model$p.value,objectlevels = levels(as.factor(df$objectnr)))
+        
+        print("statistical test: T-Test")
+      } else {
+        # Mann-Whitney U test
+        global.mannwhitney <<- TRUE
+        m_model <- f_nonparametric_mannwhithney(testvariable = df$meting,objectname = df$objectnr)
+        variables <- c("Test statistic",
+                       "DF",
+                       "T-value",
+                       "p-value",
+                       "side")
+        value <- c(m_model$method,
+                   "NO DF", #df
+                   as.numeric(m_model$statistic), #F-value
+                   m_model$p.value, #p-value
+                   m_model$alternative) 
+        statistics <- tibble(variable_name = variables,
+                             botrytis = value)
+        m_letters <- f_sigletters_two_objects(p_value = m_model$p.value,objectlevels = levels(as.factor(df$objectnr)))
+        
+        print("statistical test: MannWhitney")
+      }
+    } else {
+      print("Error: not enough object levels to perform statistics.")
+    }
+    
+    
+    summarytable_input <- df %>% 
+      dplyr::select(objectnr,meting)
+    colnames(summarytable_input) <- c("object", "testvariable")
+    
+    # global output
+    global.summary <<- f_summary_stat(summarytable = summarytable_input)
+    global.sigletters <<- m_letters
+    global.teststatistic <<- statistics
     
     print("Drukplekgevoeligheid file processed")
     

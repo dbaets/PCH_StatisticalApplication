@@ -29,6 +29,8 @@ server <- function(input, output,session) {
   # Loading template files --------------------------------------------------
   global.templatepath <- "examplefile\\"
   global.template_botrytis <- read.xlsx(xlsxFile = paste0(global.templatepath,"template_botrytis.xlsx"),sheet = "statistiek")
+  global.template_production <- read.xlsx(xlsxFile = paste0(global.templatepath,"template_production.xlsx"),sheet = "statistiek_productie")
+  global.template_sortering <- read.xlsx(xlsxFile = paste0(global.templatepath,"template_production.xlsx"),sheet = "statistiek_sortering")
   global.template_generaltrial <- read.xlsx(xlsxFile = paste0(global.templatepath,"template_generaltrial.xlsx"),sheet = "statistiek")
   
   # Input panel: ------------------------------------------------------------
@@ -51,6 +53,43 @@ server <- function(input, output,session) {
                                                              asTable = c(TRUE),
                                                              withFilter = c(FALSE))
                                                 })
+  
+  output$btn_production <- downloadHandler(filename = "template_production.xlsx",
+                                         content = function(file){
+                                           main_colour <- "#6BA13C"
+                                           options("openxlsx.borderColour" = main_colour)
+                                           headerstyle <- createStyle(
+                                             textDecoration = "BOLD", fontColour = "#FFFFFF", fontSize = 12,
+                                             fontName = "Arial Narrow", fgFill = main_colour
+                                           )
+                                           output_list <- list("statistiek_productie" = global.template_production)
+                                           write.xlsx(output_list,
+                                                      file = file,
+                                                      headerStyle = headerstyle,
+                                                      startCol = 1, startRow = 1,
+                                                      colWidths = c("auto"),
+                                                      asTable = c(TRUE),
+                                                      withFilter = c(FALSE))
+                                         })
+  
+  output$btn_sortering <- downloadHandler(filename = "template_sortering.xlsx",
+                                           content = function(file){
+                                             main_colour <- "#6BA13C"
+                                             options("openxlsx.borderColour" = main_colour)
+                                             headerstyle <- createStyle(
+                                               textDecoration = "BOLD", fontColour = "#FFFFFF", fontSize = 12,
+                                               fontName = "Arial Narrow", fgFill = main_colour
+                                             )
+                                             output_list <- list("statistiek_sortering" = global.template_sortering)
+                                             write.xlsx(output_list,
+                                                        file = file,
+                                                        headerStyle = headerstyle,
+                                                        startCol = 1, startRow = 1,
+                                                        colWidths = c("auto"),
+                                                        asTable = c(TRUE),
+                                                        withFilter = c(FALSE))
+                                           })
+  
   output$btn_generaltemplate <- downloadHandler(filename = "template_generaltrial.xlsx",
                                          content = function(file){
                                            main_colour <- "#6BA13C"
