@@ -16,7 +16,7 @@ Proefcentrum Hoogstraten vzw. (Belgium) is a research company specialized in gre
 This manual helps researchers to use the application as intended. For further questions or inquiries please contact me directly dieterbaets(at)gmail(dot)com or dieter(dot)baets(at)proefcentrum(dot)be.
 
 
-# Install requirements
+# Installation requirements
 Before running the Shiny application on your own machine please ensure following prerequisites:
 
 * at least R-version 4.0.0 (Arbor Day) or higher
@@ -79,7 +79,7 @@ Wickham, H., 2017. Tidyverse: easily install and load the ‘Tidyverse’. Packa
 
 The results of an anova can be best reported in the following format:
 
-> $$F(5,18)=1.288, p=0.312$$
+$$F(5,18)=1.288, p=0.312$$
 
 * **5**: DF object, degrees of freedom at the level of the objects
 * **18**: DF residuals, degrees of freedom of the residuals
@@ -88,7 +88,7 @@ The results of an anova can be best reported in the following format:
 
 The results of an Kruskal-Wallis should be reported in following format:
 
-> $$\chi^2(3)=5.889, p=0.117$$
+$$\chi^2(3)=5.889, p=0.117$$
 
 * **3**: DF, degrees of freedom
 * **5.889**: F-value in *TestStatistic* table
